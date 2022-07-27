@@ -8,11 +8,14 @@ class CompletedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+    return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
-        var tasks = AppCubit.get(context).completedTasks;
-        return TasksBuilder(tasks: tasks);
+        if (state  is AppCreateDatabaseLoadingState ){
+          return CircularProgressIndicator();
+        }
+        else {
+          return TasksBuilder(tasks: AppCubit.get(context).completedTasks);
+        }
       },
     );
   }

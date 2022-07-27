@@ -18,3 +18,8 @@ class AppUpdateDatabaseState extends AppStates {}
 class AppDeleteDatabaseState extends AppStates {}
 
 class ChangeColorState extends AppStates {}
+
+
+
+class getScedualingLoading extends AppStates{}
+class getScedualingsucess extends AppStates{}

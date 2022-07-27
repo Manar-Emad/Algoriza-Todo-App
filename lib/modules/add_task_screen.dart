@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/modules/board_screen.dart';
-import 'package:todo/modules/notifications/notifications_services.dart';
 import 'package:todo/shared/app_cubit/app_cubit.dart';
 import 'package:todo/shared/components/buttons.dart';
 import 'package:todo/shared/components/form_feild.dart';
 import 'package:todo/shared/components/navigate.dart';
+import 'package:todo/shared/components/snack_bar.dart';
 import 'package:todo/shared/styles/sizes.dart';
 import 'package:todo/shared/styles/styles.dart';
 
@@ -31,6 +31,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   var formKey = GlobalKey<FormState>();
 
   late String _chosenValue;
+  late String taskColor="";
+
   int _selectedColor = 0;
 
   @override
@@ -109,9 +111,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     firstDate: DateTime.now(),
                                     lastDate: DateTime.parse('2022-10-17'))
                                 .then((value) {
-                              debugPrint(DateFormat.yMMMd().format(value!));
-                              dateController.text =
-                                  DateFormat.yMMMd().format(value);
+                              debugPrint("ewewe ${DateFormat("yyyy-MM-dd").format(value!)}");
+                              dateController.text = DateFormat("yyyy-MM-dd").format(value);
                             });
                           },
                           hintText: ' 28-02-2021',
@@ -216,6 +217,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           validateFunction: () {},
                           hintText: ' 10 minutes early',
                           suffixIcon: Icons.keyboard_arrow_down,
+                          //isClikable: false,
+
                           onTap: () {
                             // DropdownButton(items: [
                             //   DropdownMenuItem(child: Text('5 min')),
@@ -289,89 +292,61 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 30,
-                  child: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Color'),
-                          Wrap(
-                            children: List<Widget>.generate(3, (index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedColor = index;
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: CircleAvatar(
-                                    radius: 15,
-                                    backgroundColor: index == 0
-                                        ? amber
-                                        : index == 1
-                                            ? teal
-                                            : red,
-                                    child: _selectedColor == index
-                                        ? const Icon(
-                                            Icons.done,
-                                            color: defTextColor,
-                                            size: 15,
-                                          )
-                                        : Container(),
-                                  ),
-                                ),
-                              );
-                            }),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
+                  height: 70,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
+                        horizontal: 20, vertical: 25),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          child: Icon(
+                          child: const Icon(
                             Icons.circle,
-                            color: AppCubit.get(context).colors[0],
+                            color: amber,size: 40,
                           ),
                           onTap: () {
-                            AppCubit.get(context).changeContainerColor(0);
+                            setState((){
+                              taskColor = "amber";
+                            });
+                            print('Color----');
+                           // AppCubit.get(context).changeContainerColor(0);
                           },
                         ),
                         GestureDetector(
-                          child: Icon(
+                          child: const Icon(
                             Icons.circle,
-                            color: AppCubit.get(context).colors[1],
+                            color: blue,size: 40,
                           ),
                           onTap: () {
-                            AppCubit.get(context).changeContainerColor(1);
+                            setState((){
+                              taskColor = "blue";
+                            });
+                          //  AppCubit.get(context).changeContainerColor(1);
                           },
                         ),
                         GestureDetector(
-                          child: Icon(
+                          child: const Icon(
                             Icons.circle,
-                            color: AppCubit.get(context).colors[2],
+                            color: teal,size: 40,
                           ),
                           onTap: () {
-                            AppCubit.get(context).changeContainerColor(2);
+                            setState((){
+                              taskColor = "teal";
+                            });
+                           // AppCubit.get(context).changeContainerColor(2);
                           },
                         ),
                         GestureDetector(
-                          child: Icon(
+                          child: const Icon(
                             Icons.circle,
-                            color: AppCubit.get(context).colors[3],
+                            color: red,size: 40,
                           ),
                           onTap: () {
-                            AppCubit.get(context).changeContainerColor(3);
+                            setState((){
+                              taskColor = "red";
+                            });
+
+                         //   AppCubit.get(context).changeContainerColor(3);
                           },
                         ),
                       ],
@@ -379,22 +354,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
                 ),
                 DefaultButton(
-                    onTap: () {
+                    onTap: ()async {
                       if (formKey.currentState!.validate()) {
+                        if(taskColor!=''){
                         print('before ');
                         AppCubit.get(context).insertToDatabase(
+                          context,
                           title: titleController.text,
                           date: dateController.text,
                           tstart: startTimeController.text,
                           tend: endTimeController.text,
                           repeat: repeatController.text,
                           reminder: reminderController.text,
+                          taskColor: taskColor,
                         );
                         print("asdasd asd asd ${titleController.text}");
                         print(dateController.text);
 
                         debugPrint('data${AppCubit.get(context).database}');
                         debugPrint('data${AppCubit.get(context).tasks}');
+                      }}else {
+                        await  snackBar("Please choose color",context);
                       }
                     },
                     text: 'Create a task'),

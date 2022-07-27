@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/modules/board_screen.dart';
 import 'package:todo/shared/app_cubit/app_cubit.dart';
 
+import 'modules/notifications/test_notification.dart';
 import 'my_bloc_observer.dart';
 
 void main() async {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: BoardScreen(),
+        home: TestNotification(),
       ),
     );
   }

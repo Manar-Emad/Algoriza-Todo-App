@@ -12,7 +12,7 @@ class TaskItem extends StatefulWidget {
 }
 
 class _TaskItemState extends State<TaskItem> {
-bool isUnCompeleted=true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,11 @@ bool isUnCompeleted=true;
         padding: const EdgeInsets.only(right: 10,left: 10),
         child: Row(
           children: [
-            isUnCompeleted? Container(
+            widget.model!['status']=="completed"? Container(
               width: 20,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.red,
-                border: Border.all(color: Colors.red),
+                color: getColor(widget.model!['color']),
                 borderRadius: BorderRadius.circular(
                   7.0,
                 ),
@@ -42,7 +41,7 @@ bool isUnCompeleted=true;
               width: 20,
               height: 20,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.red),
+                border: Border.all(color: getColor(widget.model!['color'])),
                 borderRadius: BorderRadius.circular(
                   7.0,
                 ),
@@ -71,7 +70,8 @@ bool isUnCompeleted=true;
                       child: TextButton(
                     onPressed: () {
                       AppCubit.get(context).updateData(status: 'completed', id:widget.model!['id'] );
-                 Navigator.pop(context);
+                      AppCubit.get(context).getDataFromDataBase(AppCubit.get(context).database);
+                      Navigator.pop(context);
                   debugPrint('complete task');
                     },
                     child: Text('Completed',style: grey16regular(),),
@@ -80,6 +80,7 @@ bool isUnCompeleted=true;
                       child: TextButton(
                     onPressed: () {
                       AppCubit.get(context).updateData(status: 'unCompleted', id:widget.model!['id'] );
+                      AppCubit.get(context).getDataFromDataBase(AppCubit.get(context).database);
                       Navigator.pop(context);
                       debugPrint('unCompleted task');
                       },
@@ -88,10 +89,8 @@ bool isUnCompeleted=true;
                   PopupMenuItem(
                       child: TextButton(
                     onPressed: () {
-                      AppCubit.get(context).updateData(status: 'Favourite', id:widget.model!['id'] );
-                      setState((){
-                        isUnCompeleted=!isUnCompeleted;
-                      });
+                      AppCubit.get(context).updateData(fav: 'favourite', id:widget.model!['id'] );
+                      AppCubit.get(context).getDataFromDataBase(AppCubit.get(context).database);
                       Navigator.pop(context);
                       debugPrint('Favourite task');
                     },
@@ -99,8 +98,19 @@ bool isUnCompeleted=true;
                   )),
                   PopupMenuItem(
                       child: TextButton(
+                        onPressed: () {
+                          AppCubit.get(context).updateData(fav: 'unfavourite', id:widget.model!['id'] );
+                          AppCubit.get(context).getDataFromDataBase(AppCubit.get(context).database);
+                          Navigator.pop(context);
+                          debugPrint('unFavourite task');
+                        },
+                        child:  Text('unFavourite',style: grey16regular()),
+                      )),
+                  PopupMenuItem(
+                      child: TextButton(
                     onPressed: () {
                       AppCubit.get(context).deleteData(id: widget.model!['id']);
+                      AppCubit.get(context).getDataFromDataBase(AppCubit.get(context).database);
                       Navigator.pop(context);
                       debugPrint('delete task');
                     },
@@ -117,4 +127,18 @@ bool isUnCompeleted=true;
       },
     );
   }
+}
+
+
+Color getColor(String color){
+  if(color == "amber") {
+    return Colors.amber;
+  }
+  else if(color=="blue"){
+    return Colors.blue;
+  }else if(color=="teal"){
+    return Colors.teal;
+  }else if(color=="red")
+  {return Colors.red;
+  }else{return Colors.black;}
 }

@@ -13,15 +13,19 @@ class AllScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        return BlocConsumer<AppCubit, AppStates>(
-          listener: (context, state) {},
+        return BlocBuilder<AppCubit, AppStates>(
           builder: (context, state) {
             var tasks=AppCubit.get(context).tasks;
-            return RefreshIndicator(
-                onRefresh: () async {
-                  AppCubit.get(context).getDataFromDataBase(AppCubit.get(context).database);
-                },
-                child: TasksBuilder(tasks:tasks));
+            if (state is AppCreateDatabaseLoadingState){
+              return const CircularProgressIndicator();
+            }else{
+              return RefreshIndicator(
+                  onRefresh: () async {
+                    AppCubit.get(context).getDataFromDataBase(AppCubit.get(context).database);
+                  },
+                  child: TasksBuilder(tasks:tasks));
+            }
+
           },
         );
   }

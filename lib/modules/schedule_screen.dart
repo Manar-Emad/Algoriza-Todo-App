@@ -1,7 +1,5 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:horizontal_calendar/horizontal_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/shared/app_cubit/app_cubit.dart';
 import 'package:todo/shared/components/colored_container.dart';
@@ -27,13 +25,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   void initState() {
     super.initState();
+    AppCubit.get(context).getDataFromByDataBaseSchedaling(DateFormat("yyyy-MM-dd").format(DateTime.now()));
   }
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>(
-  listener: (context, state) {},
-  builder: (context, state) {
-    var tasks=AppCubit.get(context).tasks;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -62,36 +57,30 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ),
             const MyDivider(),
             Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
-        child:   HorizontalCalendar(
-          date: DateTime.now(),
-          textColor: Colors.black45,
-          backgroundColor: Colors.white,
-          selectedColor: Colors.blue,
-          onDateSelected: (date) => print(
-            date.toString(),
-          ),
-        ),
-        // DatePicker(
-        //   DateTime.now(),
-        //   width: 50,
-        //   height: 76,
-        //   controller: _controller,
-        //   initialSelectedDate: DateTime.now(),
-        //   selectionColor: buttonColor,
-        //   selectedTextColor: Colors.white,
-        //   inactiveDates: [DateTime.now().add(Duration(days: 7)),],
-        //
-        //   onDateChange: (date) {
-        //     AppCubit.get(context).getDataFromByDataBase(AppCubit.get(context).database);
-        //
-        //     // New date selected
-        //     setState(() {
-        //       _selectedValue = date;
-        //     });
-        //   },
-        // ),
-      ),
+              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+              child:
+              DatePicker(
+                DateTime.now(),
+                width: 50,
+                height: 76,
+                controller: _controller,
+                initialSelectedDate: DateTime.now(),
+                selectionColor: buttonColor,
+                selectedTextColor: Colors.white,
+                inactiveDates: [DateTime.now().add(Duration(days: 7)),],
+
+                onDateChange: (date) {
+                  String zero = (date.month == "10"  || date.month == "11" ||date.month == "12")?"":"0";
+                  print("werwer wer  --> ${date.year}-0${date.month}-${date.day}");
+                  AppCubit.get(context).getDataFromByDataBaseSchedaling("${date.year}-${zero}${date.month}-${date.day}");
+
+                  // New date selected
+                  setState(() {
+                    _selectedValue = date;
+                  });
+                },
+              ),
+            ),
             const MyDivider(),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -100,21 +89,20 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-          Text(DateFormat('EEEE').format(DateTime.now()).toString(),
-          style: black14regular(),
-          ),
-                      Text(DateFormat('dd MMMM yyyy').format(DateTime.now()).toString(),
+                      Text(DateFormat('EEEE').format(_selectedValue).toString(),
+                        style: black14regular(),),
+                      Text(DateFormat('dd MMMM yyyy').format(_selectedValue).toString(),
                         style: black14regular(),
                       ),
-                  ],),
+                    ],),
                   const SizedBox(height: 10,),
                   RefreshIndicator(
                     onRefresh: () async {
                       AppCubit.get(context).getDataFromDataBase(AppCubit.get(context).database);
                     },
-                    child: ColoredContainer(
-                          model2: tasks[0],
-                    ),
+                    child: SizedBox(
+                        height: 400,
+                        child: ColoredContainer()),
                   ),
                 ],
               ),
@@ -124,8 +112,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         ),
       ),
     );
-  },
-);
   }
 }
 

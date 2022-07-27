@@ -1,42 +1,16 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //
-// void main() => runApp(MyApp());
-//
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         // This is the theme of your application.
-//         //
-//         // Try running your application with "flutter run". You'll see the
-//         // application has a blue toolbar. Then, without quitting the app, try
-//         // changing the primarySwatch below to Colors.green and then invoke
-//         // "hot reload" (press "r" in the console where you ran "flutter run",
-//         // or simply save your changes to "hot reload" in a Flutter IDE).
-//         // Notice that the counter didn't reset back to zero; the application
-//         // is not restarted.
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: MyHomePage(title: 'Local Notifications'),
-//     );
-//   }
-// }
-//
-// class MyHomePage extends StatefulWidget {
-//   MyHomePage({Key key, this.title}) : super(key: key);
+// class Notificationsss extends StatefulWidget {
+//   Notificationsss({Key? key, required this.title}) : super(key: key);
 //
 //   final String title;
 //
 //   @override
-//   _MyHomePageState createState() => _MyHomePageState();
+//   _NotificationsssState createState() => _NotificationsssState();
 // }
 //
-// class _MyHomePageState extends State<MyHomePage> {
+// class _NotificationsssState extends State<Notificationsss> {
 //
 //   late FlutterLocalNotificationsPlugin flutterNotificationPlugin;
 //
@@ -47,11 +21,12 @@
 //
 //     var initializationSettingsIOS = const IOSInitializationSettings();
 //
-//     var initializationSettings = new InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+//     var initializationSettings =  InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 //
 //     flutterNotificationPlugin = FlutterLocalNotificationsPlugin();
 //
-//     flutterNotificationPlugin.initialize(initializationSettings,onSelectNotification: onSelectNotification);
+//     flutterNotificationPlugin.initialize(initializationSettings,
+//         onSelectNotification: onSelectNotification);
 //
 //
 //   }
