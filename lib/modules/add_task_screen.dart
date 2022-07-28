@@ -44,11 +44,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   }
 
   String dropdownValue = ' 10 minutes early';
-  List items = ['One', 'Two', 'Three', 'Four'];
-  String selectedValue = 'Four';
+  List items = ['5 min early', '10 min early', '15 min early', '20 min early'];
+  String selectedValue = '5 min early';
 
-  List items2 = ['One', 'Two', 'Three', 'Four'];
-  String selectedValue2 = 'Four';
+  List items2 =['daily', 'weekly', 'monthly'];
+  String selectedValue2 = 'daily';
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -264,80 +264,40 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             style: black14bold(),
                           ),
                         ),
+                  Container(
+                    decoration:  BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color:  greyColor.withOpacity(.06),
+                    ),
+                         child:DropdownButton<String>(
+                                dropdownColor: defTextColor,
+                                isExpanded: true,
+                                focusColor:  greyColor.withOpacity(.06),
+                                underline: SizedBox(),
+                                borderRadius:BorderRadius.circular(10) ,
+                                hint:Text('weekly'),
+                                iconEnabledColor: greyColor,
+                                iconDisabledColor: greyColor,
+                                value:  selectedValue2 ,
+                                icon: const Icon( Icons.keyboard_arrow_down),
+                                elevation: 16,
+                                style: const TextStyle(color: secondColor),
+                                onChanged: (String? newValue) {
 
-                        MyFormFeild(
-                          controller: repeatController,
-                          textValidate: 'please enter task date',
-                          validateFunction: () {},
-                          hintText: ' weekly',
-                          suffixIcon: Icons.keyboard_arrow_down,
-                          suffixColor: greyColor.withOpacity(.5),
-                        ),
-                        ///Give me error
-                        // Padding(
-                        //   padding: const EdgeInsets.all(3.0),
-                        //   child: Container(
-                        //     decoration:  BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //       color:  greyColor.withOpacity(.06),
-                        //     ),
-                        //     child: Expanded(
-                        //       child:  DropdownButton<String>(
-                        //           dropdownColor: defTextColor,
-                        //           isExpanded: true,
-                        //           focusColor:  greyColor.withOpacity(.06),
-                        //           underline: SizedBox(),
-                        //            borderRadius:BorderRadius.circular(10) ,
-                        //           hint:Text(' 10 minutes early'),
-                        //           iconEnabledColor: greyColor,
-                        //           iconDisabledColor: greyColor,
-                        //           value: dropdownValue,
-                        //           icon: const Icon( Icons.keyboard_arrow_down),
-                        //           elevation: 16,
-                        //           style: const TextStyle(color: secondColor),
-                        //           onChanged: (String? newValue) {
-                        //             setState(() {
-                        //               dropdownValue = newValue!;
-                        //             });
-                        //           },
-                        //           items: <String>['One', 'Two', 'Free', 'Four']
-                        //               .map<DropdownMenuItem<String>>((String value) {
-                        //             return DropdownMenuItem<String>(
-                        //               value: value,
-                        //               child: Text(value),
-                        //             );
-                        //           }).toList(),
-                        //         ),
-                        //       // DropdownButton<String>(
-                        //       //   dropdownColor: defTextColor,
-                        //       //   isExpanded: true,
-                        //       //   focusColor:  greyColor.withOpacity(.06),
-                        //       //   underline: SizedBox(),
-                        //       //   borderRadius:BorderRadius.circular(10) ,
-                        //       //   hint:Text('weekly'),
-                        //       //   iconEnabledColor: greyColor,
-                        //       //   iconDisabledColor: greyColor,
-                        //       //   value: dropdownValue,
-                        //       //   icon: const Icon( Icons.keyboard_arrow_down),
-                        //       //   elevation: 16,
-                        //       //   style: const TextStyle(color: secondColor),
-                        //       //   onChanged: (String? newValue) {
-                        //       //
-                        //       //     setState(() {
-                        //       //       dropdownValue = newValue!;
-                        //       //     });
-                        //       //   },
-                        //       //   items: items2
-                        //       //       .map<DropdownMenuItem<String>>((value) {
-                        //       //     return DropdownMenuItem<String>(
-                        //       //       value: value,
-                        //       //       child: Text(value),
-                        //       //     );
-                        //       //   }).toList(),
-                        //       // ),
-                        //     ),
-                        //   ),
-                        // ),
+                                  setState(() {
+                                    selectedValue2  = newValue!;
+                                  });
+                                },
+                                items: items2
+                                    .map<DropdownMenuItem<String>>((value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
+                  )
+
                       ],
                     ),
                   ),
