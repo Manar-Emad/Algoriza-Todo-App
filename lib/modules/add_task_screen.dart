@@ -234,53 +234,25 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 5),
-                              child: Expanded(
-                                child:  DropdownButton<String>(
-                                  isExpanded: true,
-                                  icon: const Icon( Icons.keyboard_arrow_down,size: 23,),
-                                  focusColor:  greyColor.withOpacity(.06),
-                                     iconEnabledColor: greyColor,
-                                     iconDisabledColor: greyColor,
-                                  value: selectedValue,
-                                  hint:Text(' 10 minutes early'),
-                                  underline: SizedBox(),
-                                  onChanged: (String? newValue) =>
-                                      setState(() => selectedValue = newValue!),
-                                  items: items
-                                      .map<DropdownMenuItem<String>>(
-                                          (dynamic value) => DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      ))
-                                      .toList(),
-                                  iconSize: 42,
-                                ),
-                                // child: DropdownButton<String>(
-                                //   dropdownColor: defTextColor,
-                                //   isExpanded: true,
-                                //   focusColor:  greyColor.withOpacity(.06),
-                                //   underline: SizedBox(),
-                                //    borderRadius:BorderRadius.circular(10) ,
-                                //   hint:Text(' 10 minutes early'),
-                                //   iconEnabledColor: greyColor,
-                                //   iconDisabledColor: greyColor,
-                                //   value: dropdownValue,
-                                //   icon: const Icon( Icons.keyboard_arrow_down),
-                                //   elevation: 16,
-                                //   style: const TextStyle(color: secondColor),
-                                //   onChanged: (String? newValue) {
-                                //     setState(() {
-                                //       dropdownValue = newValue!;
-                                //     });
-                                //   },
-                                //   items: <String>['One', 'Two', 'Free', 'Four']
-                                //       .map<DropdownMenuItem<String>>((String value) {
-                                //     return DropdownMenuItem<String>(
-                                //       value: value,
-                                //       child: Text(value),
-                                //     );
-                                //   }).toList(),
-                                // ),
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                icon: const Icon( Icons.keyboard_arrow_down,size: 23,),
+                                focusColor:  greyColor.withOpacity(.06),
+                                   iconEnabledColor: greyColor,
+                                   iconDisabledColor: greyColor,
+                                value: selectedValue,
+                                hint:Text(' 10 minutes early'),
+                                underline: SizedBox(),
+                                onChanged: (String? newValue) =>
+                                    setState(() => selectedValue = newValue!),
+                                items: items
+                                    .map<DropdownMenuItem<String>>(
+                                        (dynamic value) => DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    ))
+                                    .toList(),
+                                iconSize: 42,
                               ),
                             ),
                           ),
@@ -456,8 +428,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         await  snackBar("Please choose color",context);
                       }
                       await service.showScheduledNotification(
-                        id: AppCubit.get(context).Scudeling[index]['id'],
-                        title:'${AppCubit.get(context).Scudeling[index]['title']}',
+                        id: 0,
+                        //AppCubit.get(context).Scudeling[index]['id'],
+                        title:'notification',
+                        //'${AppCubit.get(context).Scudeling[index]['title']}',
                         body: '',
                         seconds: 4,
                       );
