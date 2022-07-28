@@ -10,10 +10,12 @@ class MyFormFeild extends StatelessWidget {
   final String textValidate;
   final String hintText;
   Function()? onTap;
+  Function()? dropDownPressed;
   Function()? clicked;
   IconData? suffixIcon;
   Color? suffixColor;
   Widget? widget;
+  Widget? dropDownWidget;
   Function? validateFunction;
   MyFormFeild({
     Key? key,
@@ -24,10 +26,12 @@ class MyFormFeild extends StatelessWidget {
     required this.textValidate,
     required this.hintText,
     this.onTap,
+    this.dropDownPressed,
     this.clicked,
     this.suffixIcon,
     this.suffixColor,
     this.widget,
+    this.dropDownWidget,
     this.validateFunction,
   }) : super(key: key);
 
@@ -52,6 +56,7 @@ class MyFormFeild extends StatelessWidget {
                 color: suffixColor,
               ),
             ),
+            suffix: InkWell(child: dropDownWidget,onTap:dropDownPressed,),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),disabledBorder:OutlineInputBorder(

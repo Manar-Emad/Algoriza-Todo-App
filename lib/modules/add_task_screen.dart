@@ -12,6 +12,7 @@ import 'package:todo/shared/styles/styles.dart';
 
 import '../shared/components/divider.dart';
 import '../shared/styles/colors.dart';
+import 'notification/local_notification_serices.dart';
 
 class AddTaskScreen extends StatefulWidget {
   AddTaskScreen({Key? key, this.model,}) : super(key: key);
@@ -30,11 +31,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   var repeatController = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
-  late String _chosenValue;
   late String taskColor="";
 
-  int _selectedColor = 0;
+  late final LocalNotificationService service;
+  var index;
+  @override
+  void initState() {
+    service=LocalNotificationService();
+  //  listenToNotification();
+    service.inialize();
+    super.initState();
+  }
 
+  String dropdownValue = ' 10 minutes early';
+  List items = ['One', 'Two', 'Three', 'Four'];
+  String selectedValue = 'Four';
+
+  List items2 = ['One', 'Two', 'Three', 'Four'];
+  String selectedValue2 = 'Four';
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -211,66 +225,65 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             style: black14bold(),
                           ),
                         ),
-                        MyFormFeild(
-                          controller: reminderController,
-                          textValidate: 'please enter remind time',
-                          validateFunction: () {},
-                          hintText: ' 10 minutes early',
-                          suffixIcon: Icons.keyboard_arrow_down,
-                          //isClikable: false,
-
-                          onTap: () {
-                            // DropdownButton(items: [
-                            //   DropdownMenuItem(child: Text('5 min')),
-                            //   DropdownMenuItem(child: Text('10 min')),
-                            //   DropdownMenuItem(child: Text('15 min')),
-                            //   DropdownMenuItem(child: Text('20 min')),
-                            // ],
-                            //   onChanged:(){
-                            //
-                            //   },);
-                            ///---------------------------------------------
-                            // DropdownButton<String>(
-                            //   focusColor:Colors.white,
-                            //   value: _chosenValue,
-                            //   //elevation: 5,
-                            //   style: const TextStyle(color: Colors.white),
-                            //   iconEnabledColor:Colors.black,
-                            //   items: <String>[
-                            //     '5 min',
-                            //     '10 min',
-                            //     '15 min',
-                            //   ].map<DropdownMenuItem<String>>((String value) {
-                            //     return DropdownMenuItem<String>(
-                            //       value: value,
-                            //       child: Text(value,style:const TextStyle(color:Colors.black),),
-                            //     );
-                            //   }).toList(),
-                            //   hint:const Text(
-                            //     "10 min",
-                            //     style:  TextStyle(
-                            //         color: Colors.black,
-                            //         fontSize: 14,
-                            //         fontWeight: FontWeight.w500),
-                            //   ),
-                            //   onChanged: (value) {
-                            //     // setState(() {
-                            //     //   _chosenValue = value;
-                            //     // });
-                            //   },
-                            // );
-                          },
-                          suffixColor: greyColor.withOpacity(.5),
-                          // isClikable: false,
-                          clicked: () {
-                            ///انا كدا بعملها ان لما يضغط عليه يظهر الاشعارات رغم اني عاوزة ان لما اليوزر يدخل وقت معين
-                            // Notifications.showNotification(
-                            //   title: 'New Notification',
-                            //     body: 'mmm',
-                            //   //model!['title']
-                            //   payload: '',
-                            // );
-                          },
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Container(
+                            decoration:  BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color:  greyColor.withOpacity(.06),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: Expanded(
+                                child:  DropdownButton<String>(
+                                  isExpanded: true,
+                                  icon: const Icon( Icons.keyboard_arrow_down,size: 23,),
+                                  focusColor:  greyColor.withOpacity(.06),
+                                     iconEnabledColor: greyColor,
+                                     iconDisabledColor: greyColor,
+                                  value: selectedValue,
+                                  hint:Text(' 10 minutes early'),
+                                  underline: SizedBox(),
+                                  onChanged: (String? newValue) =>
+                                      setState(() => selectedValue = newValue!),
+                                  items: items
+                                      .map<DropdownMenuItem<String>>(
+                                          (dynamic value) => DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      ))
+                                      .toList(),
+                                  iconSize: 42,
+                                ),
+                                // child: DropdownButton<String>(
+                                //   dropdownColor: defTextColor,
+                                //   isExpanded: true,
+                                //   focusColor:  greyColor.withOpacity(.06),
+                                //   underline: SizedBox(),
+                                //    borderRadius:BorderRadius.circular(10) ,
+                                //   hint:Text(' 10 minutes early'),
+                                //   iconEnabledColor: greyColor,
+                                //   iconDisabledColor: greyColor,
+                                //   value: dropdownValue,
+                                //   icon: const Icon( Icons.keyboard_arrow_down),
+                                //   elevation: 16,
+                                //   style: const TextStyle(color: secondColor),
+                                //   onChanged: (String? newValue) {
+                                //     setState(() {
+                                //       dropdownValue = newValue!;
+                                //     });
+                                //   },
+                                //   items: <String>['One', 'Two', 'Free', 'Four']
+                                //       .map<DropdownMenuItem<String>>((String value) {
+                                //     return DropdownMenuItem<String>(
+                                //       value: value,
+                                //       child: Text(value),
+                                //     );
+                                //   }).toList(),
+                                // ),
+                              ),
+                            ),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 5),
@@ -279,6 +292,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             style: black14bold(),
                           ),
                         ),
+
                         MyFormFeild(
                           controller: repeatController,
                           textValidate: 'please enter task date',
@@ -287,6 +301,71 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           suffixIcon: Icons.keyboard_arrow_down,
                           suffixColor: greyColor.withOpacity(.5),
                         ),
+                        ///Give me error
+                        // Padding(
+                        //   padding: const EdgeInsets.all(3.0),
+                        //   child: Container(
+                        //     decoration:  BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       color:  greyColor.withOpacity(.06),
+                        //     ),
+                        //     child: Expanded(
+                        //       child:  DropdownButton<String>(
+                        //           dropdownColor: defTextColor,
+                        //           isExpanded: true,
+                        //           focusColor:  greyColor.withOpacity(.06),
+                        //           underline: SizedBox(),
+                        //            borderRadius:BorderRadius.circular(10) ,
+                        //           hint:Text(' 10 minutes early'),
+                        //           iconEnabledColor: greyColor,
+                        //           iconDisabledColor: greyColor,
+                        //           value: dropdownValue,
+                        //           icon: const Icon( Icons.keyboard_arrow_down),
+                        //           elevation: 16,
+                        //           style: const TextStyle(color: secondColor),
+                        //           onChanged: (String? newValue) {
+                        //             setState(() {
+                        //               dropdownValue = newValue!;
+                        //             });
+                        //           },
+                        //           items: <String>['One', 'Two', 'Free', 'Four']
+                        //               .map<DropdownMenuItem<String>>((String value) {
+                        //             return DropdownMenuItem<String>(
+                        //               value: value,
+                        //               child: Text(value),
+                        //             );
+                        //           }).toList(),
+                        //         ),
+                        //       // DropdownButton<String>(
+                        //       //   dropdownColor: defTextColor,
+                        //       //   isExpanded: true,
+                        //       //   focusColor:  greyColor.withOpacity(.06),
+                        //       //   underline: SizedBox(),
+                        //       //   borderRadius:BorderRadius.circular(10) ,
+                        //       //   hint:Text('weekly'),
+                        //       //   iconEnabledColor: greyColor,
+                        //       //   iconDisabledColor: greyColor,
+                        //       //   value: dropdownValue,
+                        //       //   icon: const Icon( Icons.keyboard_arrow_down),
+                        //       //   elevation: 16,
+                        //       //   style: const TextStyle(color: secondColor),
+                        //       //   onChanged: (String? newValue) {
+                        //       //
+                        //       //     setState(() {
+                        //       //       dropdownValue = newValue!;
+                        //       //     });
+                        //       //   },
+                        //       //   items: items2
+                        //       //       .map<DropdownMenuItem<String>>((value) {
+                        //       //     return DropdownMenuItem<String>(
+                        //       //       value: value,
+                        //       //       child: Text(value),
+                        //       //     );
+                        //       //   }).toList(),
+                        //       // ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -376,6 +455,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       }}else {
                         await  snackBar("Please choose color",context);
                       }
+                      await service.showScheduledNotification(
+                        id: 0,
+                        //AppCubit.get(context).Scudeling[index]['id']
+                        title:'time now no',
+                        //  '${AppCubit.get(context).Scudeling[index]['title']}',
+                        body: '',
+                        seconds: 4,
+                      );
+
                     },
                     text: 'Create a task'),
               ],
