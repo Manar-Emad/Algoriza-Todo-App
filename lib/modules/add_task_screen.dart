@@ -32,13 +32,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   var formKey = GlobalKey<FormState>();
 
   late String taskColor="";
-
   late final LocalNotificationService service;
-  var index;
+
   @override
   void initState() {
     service=LocalNotificationService();
-  //  listenToNotification();
     service.inialize();
     super.initState();
   }
@@ -305,6 +303,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     ),
                   ),
                 ),
+                /// add Colors====
                 SizedBox(
                   height: 70,
                   child: Padding(
@@ -379,7 +378,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       );
                       if (formKey.currentState!.validate()) {
                         if(taskColor!=''){
-                        print('before ');
+                        debugPrint('before ');
                         AppCubit.get(context).insertToDatabase(
                           context,
                           title: titleController.text,
@@ -388,18 +387,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           tend: endTimeController.text,
                           repeat: repeatController.text,
                           reminder: reminderController.text,
-                          taskColor: taskColor,
-                        );
-                        print("asdasd asd asd ${titleController.text}");
-                        print(dateController.text);
-
+                          taskColor: taskColor,);
+                        debugPrint("asdasd asd asd ${titleController.text}");
+                        debugPrint(dateController.text);
                         debugPrint('data${AppCubit.get(context).database}');
                         debugPrint('data${AppCubit.get(context).tasks}');
                       }}else {
-                        snackBar("Please choose color",context);
-                      }
-
-                    },
+                        snackBar("Please choose color",context);}},
                     text: 'Create a task'),
               ],
             ),

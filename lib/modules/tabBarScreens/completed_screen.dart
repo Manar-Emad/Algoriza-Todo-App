@@ -11,7 +11,7 @@ class CompletedScreen extends StatelessWidget {
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
         if (state  is AppCreateDatabaseLoadingState ){
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         else {
           return TasksBuilder(tasks: AppCubit.get(context).completedTasks);
