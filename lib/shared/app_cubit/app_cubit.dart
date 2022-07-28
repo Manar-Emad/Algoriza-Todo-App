@@ -79,6 +79,7 @@ class AppCubit extends Cubit<AppStates> {
       }).catchError((error) {
         debugPrint('Error When Inserting New Record ${error.toString()}');
       });
+
       print('$tasks ins');
     });
   }

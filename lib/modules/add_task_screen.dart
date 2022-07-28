@@ -52,9 +52,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {
+      listener: (context, state)async{
         if (state is AppInsertDatabaseState) {
           print("manar before navigate");
+          await service.showScheduledNotification(
+            id: 0,
+            //AppCubit.get(context).Scudeling[index]['id'],
+            title:titleController.text,
+            //'${AppCubit.get(context).Scudeling[index]['title']}',
+            body: '',
+            seconds: 4,
+          );
           navigateTo(context, const BoardScreen());
         }
       },
@@ -233,7 +241,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               color:  greyColor.withOpacity(.06),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              padding: const EdgeInsets.symmetric(horizontal: 7),
                               child: DropdownButton<String>(
                                 isExpanded: true,
                                 icon: const Icon( Icons.keyboard_arrow_down,size: 23,),
@@ -269,33 +277,36 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       borderRadius: BorderRadius.circular(10),
                       color:  greyColor.withOpacity(.06),
                     ),
-                         child:DropdownButton<String>(
-                                dropdownColor: defTextColor,
-                                isExpanded: true,
-                                focusColor:  greyColor.withOpacity(.06),
-                                underline: SizedBox(),
-                                borderRadius:BorderRadius.circular(10) ,
-                                hint:Text('weekly'),
-                                iconEnabledColor: greyColor,
-                                iconDisabledColor: greyColor,
-                                value:  selectedValue2 ,
-                                icon: const Icon( Icons.keyboard_arrow_down),
-                                elevation: 16,
-                                style: const TextStyle(color: secondColor),
-                                onChanged: (String? newValue) {
+                         child:Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 7),
+                           child: DropdownButton<String>(
+                                  dropdownColor: defTextColor,
+                                  isExpanded: true,
+                                  focusColor:  greyColor.withOpacity(.06),
+                                  underline: SizedBox(),
+                                  borderRadius:BorderRadius.circular(10) ,
+                                  hint:Text('weekly'),
+                                  iconEnabledColor: greyColor,
+                                  iconDisabledColor: greyColor,
+                                  value:  selectedValue2 ,
+                                  icon: const Icon( Icons.keyboard_arrow_down),
+                                  elevation: 16,
+                                  style: const TextStyle(color: secondColor),
+                                  onChanged: (String? newValue) {
 
-                                  setState(() {
-                                    selectedValue2  = newValue!;
-                                  });
-                                },
-                                items: items2
-                                    .map<DropdownMenuItem<String>>((value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),
+                                    setState(() {
+                                      selectedValue2  = newValue!;
+                                    });
+                                  },
+                                  items: items2
+                                      .map<DropdownMenuItem<String>>((value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                         ),
                   )
 
                       ],
@@ -387,14 +398,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       }}else {
                         await  snackBar("Please choose color",context);
                       }
-                      await service.showScheduledNotification(
-                        id: 0,
-                        //AppCubit.get(context).Scudeling[index]['id'],
-                        title:'notification',
-                        //'${AppCubit.get(context).Scudeling[index]['title']}',
-                        body: '',
-                        seconds: 4,
-                      );
 
                     },
                     text: 'Create a task'),
