@@ -456,10 +456,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         await  snackBar("Please choose color",context);
                       }
                       await service.showScheduledNotification(
-                        id: 0,
-                        //AppCubit.get(context).Scudeling[index]['id']
-                        title:'time now no',
-                        //  '${AppCubit.get(context).Scudeling[index]['title']}',
+                        id: AppCubit.get(context).Scudeling[index]['id'],
+                        title:'${AppCubit.get(context).Scudeling[index]['title']}',
                         body: '',
                         seconds: 4,
                       );
