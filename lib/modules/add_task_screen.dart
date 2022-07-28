@@ -52,17 +52,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state)async{
+      listener: (context, state){
         if (state is AppInsertDatabaseState) {
           print("manar before navigate");
-          await service.showScheduledNotification(
-            id: 0,
-            //AppCubit.get(context).Scudeling[index]['id'],
-            title:titleController.text,
-            //'${AppCubit.get(context).Scudeling[index]['title']}',
-            body: '',
-            seconds: 4,
-          );
           navigateTo(context, const BoardScreen());
         }
       },
@@ -377,6 +369,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 ),
                 DefaultButton(
                     onTap: ()async {
+                      await service.showScheduledNotification(
+                        id: 0,
+                        //AppCubit.get(context).Scudeling[index]['id'],
+                        title:titleController.text,
+                        //'${AppCubit.get(context).Scudeling[index]['title']}',
+                        body: '',
+                        seconds: 4,
+                      );
                       if (formKey.currentState!.validate()) {
                         if(taskColor!=''){
                         print('before ');
@@ -396,7 +396,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         debugPrint('data${AppCubit.get(context).database}');
                         debugPrint('data${AppCubit.get(context).tasks}');
                       }}else {
-                        await  snackBar("Please choose color",context);
+                        snackBar("Please choose color",context);
                       }
 
                     },
